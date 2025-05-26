@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<title>Simulador Desempate Padel</title>
+<style>
+  body { font-family: Arial, sans-serif; margin: 20px; }
+  table { border-collapse: collapse; width: 100%; max-width: 600px; }
+  th, td { border: 1px solid #ccc; padding: 8px; text-align: center; }
+  th { background-color: #f9f9f9; }
+</style>
+</head>
+<body>
+
+<h1>Simulador Desempate Padel</h1>
+
+<button onclick="mostrarOrden()">Mostrar tabla ordenada</button>
+
+<table id="resultado"></table>
+
+<script>
+  const equipos = [
+    { nombre: "A", puntos: 1, diferenciaGames: 3, partidosJugados: 2, victorias: 1, derrotas: 1 },
+    { nombre: "B", puntos: 1, diferenciaGames: 5, partidosJugados: 2, victorias: 1, derrotas: 1 },
+    { nombre: "C", puntos: 1, diferenciaGames: 4, partidosJugados: 2, victorias: 1, derrotas: 1 },
+    { nombre: "D", puntos: 0, diferenciaGames: -12, partidosJugados: 2, victorias: 0, derrotas: 2 },
+  ];
+
+  const resultadosDirectos = {
+    A: { B: "B", C: "A" },
+    B: { A: "B", C: "C" },
+    C: { A: "A", B: "C" },
+    D: {},
+  };
+
+  function ordenarEquipos(equipos, resultadosDirectos) {
+    return equipos.slice().sort((eq1, eq2) => {
+      if (eq2.puntos !== eq1.puntos) {
+        return eq2.puntos - eq1.puntos;
+      }
+      if (eq1.puntos === eq2.puntos) {
+        if (resultadosDirectos[eq1.nombre] && resultadosDirectos[eq1.nombre][eq2.nombre]) {
+          if (resultadosDirectos[eq1.nombre][eq2.nombre] === eq1.nombre) return -1;
+          if (resultadosDirectos[eq1.nombre][eq2.nombre] === eq2.nombre) return 1;
+        }
+      }
+      return eq2.diferenciaGames - eq1.diferenciaGames;
+    });
+  }
+
+  function mostrarOrden() {
+    const ordenados = ordenarEquipos(equipos, resultadosDirectos);
+
+    let tablaHTML = `
+      <thead>
+        <tr>
+          <th>Posición</th>
+          <th>Equipo</th>
+          <th>Puntos</th>
+          <th>Partidos Jugados</th>
+          <th>Victorias</th>
+          <th>Derrotas</th>
+          <th>Diferencia de Games</th>
+        </tr>
+      </thead>
+      <tbody>
+    `;
+
+    ordenados.forEach((eq, i) => {
+      tablaHTML += `
+        <tr>
+          <td>${i + 1}</td>
+          <td>${eq.nombre}</td>
+          <td>${eq.puntos}</td>
+          <td>${eq.partidosJugados}</td>
+          <td>${eq.victorias}</td>
+          <td>${eq.derrotas}</td>
+          <td>${eq.diferenciaGames}</td>
+        </tr>
+      `;
+    });
+
+    tablaHTML += `</tbody>`;
+
+    document.getElementById("resultado").innerHTML = tablaHTML;
+  }
+</script>
+
+</body>
+</html>
