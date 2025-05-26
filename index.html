@@ -1,90 +1,223 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-<meta charset="UTF-8" />
-<title>Simulador Desempate Padel</title>
-<style>
-  body { font-family: Arial, sans-serif; margin: 20px; }
-  table { border-collapse: collapse; width: 100%; max-width: 600px; }
-  th, td { border: 1px solid #ccc; padding: 8px; text-align: center; }
-  th { background-color: #f9f9f9; }
-</style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Acceso Pádel - Resultados</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 20px;
+      background: #f5f5f5;
+      margin: 0;
+    }
+
+    h1, h2 {
+      text-align: center;
+      margin: 10px 0;
+    }
+
+    .grupo, .fase {
+      margin-bottom: 30px;
+      background: #fff;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 10px;
+    }
+
+    th, td {
+      border: 1px solid #ccc;
+      padding: 10px;
+      text-align: center;
+    }
+
+    th {
+      background-color: #eee;
+    }
+
+    ul {
+      list-style: none;
+      padding: 0;
+    }
+
+    ul li {
+      margin-bottom: 8px;
+    }
+
+    /* Responsive */
+    @media (max-width: 600px) {
+      table, thead, tbody, th, td, tr {
+        display: block;
+      }
+
+      thead {
+        display: none;
+      }
+
+      tr {
+        margin-bottom: 15px;
+        background: #f9f9f9;
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 6px;
+      }
+
+      td {
+        text-align: left;
+        padding: 8px;
+        position: relative;
+      }
+
+      td::before {
+        content: attr(data-label);
+        font-weight: bold;
+        display: block;
+        margin-bottom: 5px;
+        color: #333;
+      }
+    }
+  </style>
 </head>
 <body>
 
-<h1>Simulador Desempate Padel</h1>
+  <h1>🏆 Acceso Pádel</h1>
+  <h2>Resultados del Torneo</h2>
 
-<button onclick="mostrarOrden()">Mostrar tabla ordenada</button>
-
-<table id="resultado"></table>
-
-<script>
-  const equipos = [
-    { nombre: "A", puntos: 1, diferenciaGames: 3, partidosJugados: 2, victorias: 1, derrotas: 1 },
-    { nombre: "B", puntos: 1, diferenciaGames: 5, partidosJugados: 2, victorias: 1, derrotas: 1 },
-    { nombre: "C", puntos: 1, diferenciaGames: 4, partidosJugados: 2, victorias: 1, derrotas: 1 },
-    { nombre: "D", puntos: 0, diferenciaGames: -12, partidosJugados: 2, victorias: 0, derrotas: 2 },
-  ];
-
-  const resultadosDirectos = {
-    A: { B: "B", C: "A" },
-    B: { A: "B", C: "C" },
-    C: { A: "A", B: "C" },
-    D: {},
-  };
-
-  function ordenarEquipos(equipos, resultadosDirectos) {
-    return equipos.slice().sort((eq1, eq2) => {
-      if (eq2.puntos !== eq1.puntos) {
-        return eq2.puntos - eq1.puntos;
-      }
-      if (eq1.puntos === eq2.puntos) {
-        if (resultadosDirectos[eq1.nombre] && resultadosDirectos[eq1.nombre][eq2.nombre]) {
-          if (resultadosDirectos[eq1.nombre][eq2.nombre] === eq1.nombre) return -1;
-          if (resultadosDirectos[eq1.nombre][eq2.nombre] === eq2.nombre) return 1;
-        }
-      }
-      return eq2.diferenciaGames - eq1.diferenciaGames;
-    });
-  }
-
-  function mostrarOrden() {
-    const ordenados = ordenarEquipos(equipos, resultadosDirectos);
-
-    let tablaHTML = `
+  <!-- Grupo A -->
+  <div class="grupo">
+    <h3>Grupo A</h3>
+    <table>
       <thead>
         <tr>
-          <th>Posición</th>
+          <th>Pos</th>
           <th>Equipo</th>
           <th>Puntos</th>
-          <th>Partidos Jugados</th>
+          <th>Jugados</th>
           <th>Victorias</th>
           <th>Derrotas</th>
-          <th>Diferencia de Games</th>
+          <th>Dif. Games</th>
         </tr>
       </thead>
       <tbody>
-    `;
-
-    ordenados.forEach((eq, i) => {
-      tablaHTML += `
         <tr>
-          <td>${i + 1}</td>
-          <td>${eq.nombre}</td>
-          <td>${eq.puntos}</td>
-          <td>${eq.partidosJugados}</td>
-          <td>${eq.victorias}</td>
-          <td>${eq.derrotas}</td>
-          <td>${eq.diferenciaGames}</td>
+          <td data-label="Pos">1</td>
+          <td data-label="Equipo">Equipo A1</td>
+          <td data-label="Puntos">6</td>
+          <td data-label="Jugados">3</td>
+          <td data-label="Victorias">2</td>
+          <td data-label="Derrotas">1</td>
+          <td data-label="Dif. Games">+8</td>
         </tr>
-      `;
-    });
+        <tr>
+          <td data-label="Pos">2</td>
+          <td data-label="Equipo">Equipo A2</td>
+          <td data-label="Puntos">6</td>
+          <td data-label="Jugados">3</td>
+          <td data-label="Victorias">2</td>
+          <td data-label="Derrotas">1</td>
+          <td data-label="Dif. Games">+5</td>
+        </tr>
+        <tr>
+          <td data-label="Pos">3</td>
+          <td data-label="Equipo">Equipo A3</td>
+          <td data-label="Puntos">3</td>
+          <td data-label="Jugados">3</td>
+          <td data-label="Victorias">1</td>
+          <td data-label="Derrotas">2</td>
+          <td data-label="Dif. Games">-2</td>
+        </tr>
+        <tr>
+          <td data-label="Pos">4</td>
+          <td data-label="Equipo">Equipo A4</td>
+          <td data-label="Puntos">0</td>
+          <td data-label="Jugados">3</td>
+          <td data-label="Victorias">0</td>
+          <td data-label="Derrotas">3</td>
+          <td data-label="Dif. Games">-11</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
 
-    tablaHTML += `</tbody>`;
+  <!-- Grupo B -->
+  <div class="grupo">
+    <h3>Grupo B</h3>
+    <table>
+      <thead>
+        <tr>
+          <th>Pos</th>
+          <th>Equipo</th>
+          <th>Puntos</th>
+          <th>Jugados</th>
+          <th>Victorias</th>
+          <th>Derrotas</th>
+          <th>Dif. Games</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td data-label="Pos">1</td>
+          <td data-label="Equipo">Equipo B1</td>
+          <td data-label="Puntos">9</td>
+          <td data-label="Jugados">3</td>
+          <td data-label="Victorias">3</td>
+          <td data-label="Derrotas">0</td>
+          <td data-label="Dif. Games">+12</td>
+        </tr>
+        <tr>
+          <td data-label="Pos">2</td>
+          <td data-label="Equipo">Equipo B2</td>
+          <td data-label="Puntos">6</td>
+          <td data-label="Jugados">3</td>
+          <td data-label="Victorias">2</td>
+          <td data-label="Derrotas">1</td>
+          <td data-label="Dif. Games">+4</td>
+        </tr>
+        <tr>
+          <td data-label="Pos">3</td>
+          <td data-label="Equipo">Equipo B3</td>
+          <td data-label="Puntos">3</td>
+          <td data-label="Jugados">3</td>
+          <td data-label="Victorias">1</td>
+          <td data-label="Derrotas">2</td>
+          <td data-label="Dif. Games">-6</td>
+        </tr>
+        <tr>
+          <td data-label="Pos">4</td>
+          <td data-label="Equipo">Equipo B4</td>
+          <td data-label="Puntos">0</td>
+          <td data-label="Jugados">3</td>
+          <td data-label="Victorias">0</td>
+          <td data-label="Derrotas">3</td>
+          <td data-label="Dif. Games">-10</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
 
-    document.getElementById("resultado").innerHTML = tablaHTML;
-  }
-</script>
+  <!-- Fases finales -->
+  <div class="fase">
+    <h3>Copa de Oro - Semifinales</h3>
+    <ul>
+      <li>Equipo A1 vs Equipo B2 - Resultado: 6-4 / 6-3</li>
+      <li>Equipo B1 vs Equipo A2 - Resultado: 7-5 / 6-2</li>
+    </ul>
+  </div>
+
+  <div class="fase">
+    <h3>Copa de Plata - Semifinales</h3>
+    <ul>
+      <li>Equipo A3 vs Equipo B4 - Resultado: 6-2 / 6-1</li>
+      <li>Equipo B3 vs Equipo A4 - Resultado: 3-6 / 7-6 / 10-8</li>
+    </ul>
+  </div>
 
 </body>
 </html>
+
